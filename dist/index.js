@@ -109,6 +109,8 @@ app.delete('/v1/api/content/:id', userMiddleware_1.default, (req, res) => __awai
             return res.status(404).json({ "message": "data not found enter correct contentid" });
         if (content.userId.toString() != userid)
             return res.status(403).json({ "message": "unauthorized to delete this content" });
+        yield db_1.contentModel.deleteOne({ _id: contentId });
+        res.status(200).json({ "message": "Content deleted successfully" });
     }
     catch (e) {
         console.log("error deleting content" + e);

@@ -103,10 +103,13 @@ app.delete('/v1/api/content/:id',userMiddleware, async (req:Request,res:Response
         const content = await contentModel.findOne({
             _id:contentId
         })
+        
         if(!content)
             return res.status(404).json({"message":"data not found enter correct contentid"})
         if(content.userId.toString() != userid)
             return res.status(403).json({"message":"unauthorized to delete this content"})
+        await contentModel.deleteOne({ _id: contentId });
+        res.status(200).json({ "message": "Content deleted successfully" });
     }
     catch(e){
             console.log("error deleting content"+e);
